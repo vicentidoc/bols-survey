@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>婦產科國考考點重要性評估 — 專家問卷</title>
+<style>
+  /* ---- Reset & Base ---- */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", sans-serif;
+    background: #f0f2f5; color: #1a1a1a; line-height: 1.65;
+    min-height: 100vh;
+  }
+
+  /* ---- Layout ---- */
+  .container { max-width: 780px; margin: 0 auto; padding: 24px 16px 64px; }
+
+  /* ---- Card ---- */
+  .card {
+    background: #fff; border-radius: 12px; padding: 32px 28px;
+    margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.08);
+  }
+  .card-accent {
+    border-top: 5px solid #1a56db;
+  }
+
+  /* ---- Typography ---- */
+  h1 { font-size: 1.55rem; font-weight: 700; color: #1a56db; margin-bottom: 8px; }
+  h2 { font-size: 1.15rem; font-weight: 600; color: #333; margin-bottom: 16px; }
+  p, li { font-size: 0.95rem; color: #444; }
+  .subtitle { font-size: 0.88rem; color: #666; margin-bottom: 16px; }
+  .note { font-size: 0.82rem; color: #888; margin-top: 12px; }
+
+  /* ---- Section number badge ---- */
+  .section-badge {
+    display: inline-block; background: #1a56db; color: #fff;
+    font-size: 0.78rem; font-weight: 600; padding: 2px 10px;
+    border-radius: 12px; margin-bottom: 10px;
+  }
+
+  /* ---- Form elements ---- */
+  label.field-label {
+    display: block; font-weight: 600; font-size: 0.92rem;
+    margin-bottom: 6px; color: #222;
+  }
+  label.field-label .required { color: #e53e3e; margin-left: 2px; }
+
+  select, input[type="text"], textarea {
+    width: 100%; padding: 10px 12px; font-size: 0.92rem;
+    border: 1.5px solid #d0d5dd; border-radius: 8px;
+    background: #fafbfc; transition: border-color .2s;
+    font-family: inherit;
+  }
+  select:focus, input[type="text"]:focus, textarea:focus {
+    outline: none; border-color: #1a56db; background: #fff;
+  }
+  textarea { resize: vertical; min-height: 80px; }
+
+  .field-group { margin-bottom: 20px; }
+
+  /* ---- Checkbox / Radio groups ---- */
+  .option-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .option-group label {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 0.9rem; padding: 6px 12px;
+    border: 1.5px solid #d0d5dd; border-radius: 8px;
+    cursor: pointer; transition: all .15s; user-select: none;
+  }
+  .option-group label:hover { border-color: #1a56db; background: #f0f4ff; }
+  .option-group input:checked + span { color: #1a56db; font-weight: 600; }
+  .option-group label:has(input:checked) {
+    border-color: #1a56db; background: #eef2ff;
+  }
+  .option-group input { display: none; }
+
+  /* ---- Rating Grid ---- */
+  .rating-grid { width: 100%; overflow-x: auto; }
+  .rating-table {
+    width: 100%; border-collapse: separate; border-spacing: 0;
+    font-size: 0.88rem;
+  }
+  .rating-table thead th {
+    position: sticky; top: 0; background: #f8f9fb;
+    padding: 10px 4px; font-weight: 600; color: #555;
+    border-bottom: 2px solid #e2e6ea; z-index: 2;
+    text-align: center; min-width: 36px;
+  }
+  .rating-table thead th:first-child {
+    text-align: left; min-width: 200px; padding-left: 12px;
+  }
+  .rating-table tbody tr {
+    transition: background .12s;
+  }
+  .rating-table tbody tr:hover { background: #f5f8ff; }
+  .rating-table tbody tr.completed { background: #f0fdf4; }
+  .rating-table td {
+    padding: 10px 4px; border-bottom: 1px solid #eee; text-align: center;
+    vertical-align: middle;
+  }
+  .rating-table td:first-child {
+    text-align: left; padding-left: 12px; font-weight: 500;
+  }
+  .topic-en { display: block; font-size: 0.78rem; color: #888; font-weight: 400; }
+  .topic-cat {
+    display: inline-block; font-size: 0.7rem; color: #fff; padding: 1px 7px;
+    border-radius: 10px; margin-top: 2px; font-weight: 500;
+  }
+  .cat-gyn-onc { background: #9333ea; }
+  .cat-general-gyn { background: #0891b2; }
+  .cat-general-ob { background: #059669; }
+  .cat-rei { background: #d97706; }
+  .cat-high-risk { background: #dc2626; }
+
+  /* Radio circles in grid */
+  .rating-table input[type="radio"] { display: none; }
+  .rating-table .radio-circle {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 2px solid #d0d5dd; cursor: pointer;
+    transition: all .15s; font-size: 0.75rem; color: transparent;
+    user-select: none;
+  }
+  .rating-table .radio-circle:hover {
+    border-color: #1a56db; background: #eef2ff;
+  }
+  .rating-table input[type="radio"]:checked + .radio-circle {
+    border-color: #1a56db; background: #1a56db; color: #fff;
+  }
+
+  /* Scale legend bar */
+  .scale-legend {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 16px; background: #f8f9fb; border-radius: 8px;
+    margin-bottom: 16px; font-size: 0.82rem; color: #555;
+    gap: 8px; flex-wrap: wrap;
+  }
+  .scale-legend .low { color: #9ca3af; }
+  .scale-legend .mid { color: #d97706; }
+  .scale-legend .high { color: #059669; font-weight: 600; }
+
+  /* ---- Progress bar ---- */
+  .progress-bar-wrap {
+    position: sticky; top: 0; z-index: 100;
+    background: #fff; padding: 8px 0 6px; margin-bottom: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.06);
+  }
+  .progress-bar-inner {
+    max-width: 780px; margin: 0 auto; padding: 0 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .progress-track {
+    flex: 1; height: 6px; background: #e5e7eb; border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: #1a56db; border-radius: 3px;
+    transition: width .3s ease;
+  }
+  .progress-text { font-size: 0.78rem; color: #666; white-space: nowrap; }
+
+  /* ---- Submit button ---- */
+  .btn-submit {
+    display: block; width: 100%; padding: 14px;
+    background: #1a56db; color: #fff; font-size: 1rem; font-weight: 600;
+    border: none; border-radius: 10px; cursor: pointer;
+    transition: background .2s; letter-spacing: 0.5px;
+  }
+  .btn-submit:hover { background: #1544b8; }
+  .btn-submit:disabled { background: #9ca3af; cursor: not-allowed; }
+
+  /* ---- Validation error ---- */
+  .field-error { color: #e53e3e; font-size: 0.8rem; margin-top: 4px; display: none; }
+  .field-group.has-error .field-error { display: block; }
+  .field-group.has-error select,
+  .field-group.has-error input[type="text"],
+  .field-group.has-error textarea { border-color: #e53e3e; }
+  tr.has-error td:first-child { color: #e53e3e; }
+
+  /* ---- Success overlay ---- */
+  .overlay {
+    display: none; position: fixed; inset: 0; z-index: 999;
+    background: rgba(255,255,255,.95);
+    flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 32px;
+  }
+  .overlay.show { display: flex; }
+  .overlay .checkmark {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: #059669; color: #fff; font-size: 2.2rem;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px;
+  }
+  .overlay h2 { color: #059669; margin-bottom: 8px; }
+  .overlay p { color: #555; }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 600px) {
+    .card { padding: 20px 16px; }
+    h1 { font-size: 1.3rem; }
+    .rating-table { font-size: 0.8rem; }
+    .rating-table .radio-circle { width: 28px; height: 28px; font-size: 0.7rem; }
+    .rating-table thead th:first-child { min-width: 140px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div class="progress-bar-wrap">
+  <div class="progress-bar-inner">
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="progress-text" id="progressText">0 / 25</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Header Card -->
+  <div class="card card-accent">
+    <h1>婦產科國考考點重要性評估</h1>
+    <p class="subtitle">Faculty Expert Survey — OB/GYN Board Exam Topic Prioritization</p>
+    <p>敬愛的老師您好：</p>
+    <p style="margin-top:8px">
+      本問卷為一項醫學教育研究的一部分，旨在建立一套客觀的國考考點優先順序評量工具。
+      我們已透過分析近 9 年 (106-114 年) 共 5,760 題國考題目，以演算法計算出各婦產科主題的考點權重。
+      現在需要資深教師的專業判斷來驗證此權重的合理性。
+    </p>
+    <p style="margin-top:8px">
+      請根據您的教學經驗與臨床判斷，評估以下 25 個婦產科主題對於醫學生準備國考的重要程度。
+    </p>
+    <p class="note">預計填答時間：10-15 分鐘 | 所有回覆匿名處理，僅用於學術研究</p>
+  </div>
+
+  <form id="surveyForm" novalidate>
+
+  <!-- Section 1: Demographics -->
+  <div class="card">
+    <span class="section-badge">第一部分</span>
+    <h2>基本資料</h2>
+
+    <div class="field-group" data-required="true">
+      <label class="field-label">Q1. 您的婦產科教學年資 <span class="required">*</span></label>
+      <select name="teaching_years" required>
+        <option value="">請選擇</option>
+        <option value="3-5">3-5 年</option>
+        <option value="6-10">6-10 年</option>
+        <option value="11-15">11-15 年</option>
+        <option value="15+">15 年以上</option>
+      </select>
+      <div class="field-error">請選擇教學年資</div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Q2. 您的次專科領域 <span class="required">*</span></label>
+      <div class="option-group">
+        <label><input type="checkbox" name="subspecialty" value="一般婦科"><span>一般婦科</span></label>
+        <label><input type="checkbox" name="subspecialty" value="婦癌"><span>婦癌</span></label>
+        <label><input type="checkbox" name="subspecialty" value="母胎醫學"><span>母胎醫學</span></label>
+        <label><input type="checkbox" name="subspecialty" value="生殖醫學"><span>生殖醫學</span></label>
+        <label><input type="checkbox" name="subspecialty" value="婦女泌尿"><span>婦女泌尿</span></label>
+      </div>
+      <div style="margin-top:8px">
+        <input type="text" name="subspecialty_other" placeholder="其他（請填寫）">
+      </div>
+      <div class="field-error">請至少選擇一個次專科</div>
+    </div>
+
+    <div class="field-group" data-required="true">
+      <label class="field-label">Q3. 您的學術職級 <span class="required">*</span></label>
+      <select name="academic_rank" required>
+        <option value="">請選擇</option>
+        <option value="主治醫師">主治醫師 (無教職)</option>
+        <option value="講師">講師</option>
+        <option value="助理教授">助理教授</option>
+        <option value="副教授">副教授</option>
+        <option value="教授">教授</option>
+      </select>
+      <div class="field-error">請選擇學術職級</div>
+    </div>
+
+    <div class="field-group" data-required="true">
+      <label class="field-label">Q4. 您是否曾參與國考命題或審題？ <span class="required">*</span></label>
+      <div class="option-group">
+        <label><input type="radio" name="exam_committee" value="是" required><span>是</span></label>
+        <label><input type="radio" name="exam_committee" value="否"><span>否</span></label>
+      </div>
+      <div class="field-error">請選擇</div>
+    </div>
+  </div>
+
+  <!-- Section 2: Rating Grid -->
+  <div class="card">
+    <span class="section-badge">第二部分</span>
+    <h2>考點重要性評分</h2>
+    <p style="margin-bottom:12px">
+      請針對每個主題，評估其對於醫學生準備國考的重要程度 (1-9 分)：
+    </p>
+
+    <div class="scale-legend">
+      <span class="low">1-3 低重要性：出題機率低</span>
+      <span class="mid">4-6 中等：應有基本了解</span>
+      <span class="high">7-9 高重要性：必須精通</span>
+    </div>
+
+    <div class="rating-grid">
+      <table class="rating-table">
+        <thead>
+          <tr>
+            <th>主題</th>
+            <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
+            <th>6</th><th>7</th><th>8</th><th>9</th>
+          </tr>
+        </thead>
+        <tbody id="ratingBody">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+    </div>
+    <div class="field-error" id="gridError" style="margin-top:8px">請為所有主題評分</div>
+  </div>
+
+  <!-- Section 3: Open-ended -->
+  <div class="card">
+    <span class="section-badge">第三部分</span>
+    <h2>開放式問題</h2>
+
+    <div class="field-group">
+      <label class="field-label">Q5. 您認為上述清單是否遺漏了重要的婦產科國考主題？若有，請列出。</label>
+      <textarea name="missing_topics" rows="3" placeholder="選填"></textarea>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Q6. 您對上述主題的分類是否有修改建議？</label>
+      <textarea name="category_feedback" rows="3" placeholder="選填"></textarea>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Q7. 對於國考婦產科考點優先順序，您是否有其他看法或建議？</label>
+      <textarea name="general_feedback" rows="3" placeholder="選填"></textarea>
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <div class="card" style="text-align:center">
+    <button type="submit" class="btn-submit" id="submitBtn">提交問卷</button>
+    <p class="note" id="submitNote">請確認所有必填欄位已填寫完成</p>
+  </div>
+
+  </form>
+</div>
+
+<!-- Success Overlay -->
+<div class="overlay" id="successOverlay">
+  <div class="checkmark">&#10003;</div>
+  <h2>感謝您完成問卷！</h2>
+  <p>您的回覆已成功送出，將匿名用於學術研究。</p>
+  <p style="margin-top:12px; color:#888; font-size:0.85rem">您現在可以關閉此頁面。</p>
+</div>
+
+<script>
+// ============================================================
+// CONFIGURATION — Set your Google Apps Script Web App URL here
+// ============================================================
+const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxHTMguZqb723U5iFC2XbdKjz_BMo3Djap3pu1qbAFz9mx9Gwb07cSun9vn-ttS2pdxBA/exec";
+// ============================================================
+
+// Topic data (from consolidated_topics.json, top 25)
+const TOPICS = [
+  { zh: "子宮內膜癌", en: "Endometrial Cancer", cat: "婦科腫瘤學", kwRank: 1 },
+  { zh: "妊娠高血壓疾病", en: "Hypertensive Disorders of Pregnancy", cat: "高危險產科學", kwRank: 2 },
+  { zh: "卵巢惡性腫瘤", en: "Ovarian Malignancy", cat: "婦科腫瘤學", kwRank: 3 },
+  { zh: "妊娠糖尿病", en: "Gestational Diabetes Mellitus", cat: "高危險產科學", kwRank: 4 },
+  { zh: "子宮頸癌", en: "Cervical Cancer", cat: "一般婦科學", kwRank: 5 },
+  { zh: "不孕症", en: "Infertility", cat: "生殖內分泌學", kwRank: 6 },
+  { zh: "子宮內膜異位症", en: "Endometriosis", cat: "一般婦科學", kwRank: 7 },
+  { zh: "尿失禁", en: "Urinary Incontinence", cat: "一般婦科學", kwRank: 8 },
+  { zh: "子宮肌瘤", en: "Uterine Leiomyoma", cat: "一般婦科學", kwRank: 9 },
+  { zh: "多囊性卵巢症候群", en: "PCOS", cat: "生殖內分泌學", kwRank: 10 },
+  { zh: "唐氏症篩檢", en: "Down Syndrome Screening", cat: "一般產科學", kwRank: 11 },
+  { zh: "子宮外孕", en: "Ectopic Pregnancy", cat: "一般婦科學", kwRank: 12 },
+  { zh: "卵巢過度刺激症候群", en: "OHSS", cat: "生殖內分泌學", kwRank: 13 },
+  { zh: "妊娠滋養細胞疾病", en: "Gestational Trophoblastic Disease", cat: "婦科腫瘤學", kwRank: 14 },
+  { zh: "卵巢生殖細胞瘤", en: "Ovarian Germ Cell Tumors", cat: "婦科腫瘤學", kwRank: 15 },
+  { zh: "卵巢畸胎瘤", en: "Ovarian Teratoma", cat: "一般婦科學", kwRank: 16 },
+  { zh: "異常產程", en: "Abnormal Labor", cat: "一般產科學", kwRank: 17 },
+  { zh: "肩難產", en: "Shoulder Dystocia", cat: "一般產科學", kwRank: 18 },
+  { zh: "卵巢囊腫", en: "Ovarian Cyst", cat: "婦科腫瘤學", kwRank: 19 },
+  { zh: "神經管缺損", en: "Neural Tube Defects", cat: "一般產科學", kwRank: 20 },
+  { zh: "更年期症候群", en: "Menopausal Syndrome", cat: "生殖內分泌學", kwRank: 21 },
+  { zh: "胎兒監測", en: "Fetal Monitoring", cat: "高危險產科學", kwRank: 22 },
+  { zh: "胎兒生長遲滯", en: "Fetal Growth Restriction", cat: "高危險產科學", kwRank: 23 },
+  { zh: "流產", en: "Abortion / Miscarriage", cat: "一般產科學", kwRank: 24 },
+  { zh: "細菌性陰道炎", en: "Bacterial Vaginosis", cat: "一般婦科學", kwRank: 25 },
+];
+
+const CAT_CLASS = {
+  "婦科腫瘤學": "cat-gyn-onc",
+  "一般婦科學": "cat-general-gyn",
+  "一般產科學": "cat-general-ob",
+  "生殖內分泌學": "cat-rei",
+  "高危險產科學": "cat-high-risk",
+};
+
+// Fisher-Yates shuffle
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// Build rating grid
+const shuffled = shuffle(TOPICS);
+const ratingBody = document.getElementById("ratingBody");
+
+shuffled.forEach((topic, idx) => {
+  const tr = document.createElement("tr");
+  const catCls = CAT_CLASS[topic.cat] || "";
+
+  let cells = `<td>
+    ${topic.zh}
+    <span class="topic-en">${topic.en}</span>
+    <span class="topic-cat ${catCls}">${topic.cat}</span>
+  </td>`;
+
+  for (let v = 1; v <= 9; v++) {
+    const id = `rating_${idx}_${v}`;
+    cells += `<td>
+      <label>
+        <input type="radio" name="topic_${idx}" value="${v}" data-topic="${topic.zh}" data-kw-rank="${topic.kwRank}">
+        <span class="radio-circle">${v}</span>
+      </label>
+    </td>`;
+  }
+  tr.innerHTML = cells;
+
+  // Mark row completed on selection
+  tr.querySelectorAll('input[type="radio"]').forEach(radio => {
+    radio.addEventListener("change", () => {
+      tr.classList.add("completed");
+      updateProgress();
+    });
+  });
+
+  ratingBody.appendChild(tr);
+});
+
+// Progress tracking
+function updateProgress() {
+  const total = TOPICS.length;
+  const done = document.querySelectorAll(".rating-table tbody tr.completed").length;
+  const pct = Math.round((done / total) * 100);
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = `${done} / ${total}`;
+}
+
+// Validation
+function validate() {
+  let ok = true;
+
+  // Required selects
+  document.querySelectorAll('.field-group[data-required="true"] select[required]').forEach(sel => {
+    const group = sel.closest(".field-group");
+    if (!sel.value) { group.classList.add("has-error"); ok = false; }
+    else { group.classList.remove("has-error"); }
+  });
+
+  // Required radio (exam_committee)
+  const ecGroup = document.querySelector('input[name="exam_committee"]').closest(".field-group");
+  if (!document.querySelector('input[name="exam_committee"]:checked')) {
+    ecGroup.classList.add("has-error"); ok = false;
+  } else { ecGroup.classList.remove("has-error"); }
+
+  // Subspecialty: at least one checked or other filled
+  const subGroup = document.querySelector('input[name="subspecialty"]').closest(".field-group");
+  const anySub = document.querySelectorAll('input[name="subspecialty"]:checked').length > 0;
+  const otherSub = document.querySelector('input[name="subspecialty_other"]').value.trim();
+  if (!anySub && !otherSub) { subGroup.classList.add("has-error"); ok = false; }
+  else { subGroup.classList.remove("has-error"); }
+
+  // All topics rated
+  const allRated = document.querySelectorAll(".rating-table tbody tr.completed").length === TOPICS.length;
+  const gridErr = document.getElementById("gridError");
+  if (!allRated) {
+    gridErr.style.display = "block";
+    // Highlight unrated rows
+    document.querySelectorAll(".rating-table tbody tr").forEach(tr => {
+      if (!tr.classList.contains("completed")) tr.classList.add("has-error");
+    });
+    ok = false;
+  } else {
+    gridErr.style.display = "none";
+    document.querySelectorAll(".rating-table tbody tr.has-error").forEach(tr => tr.classList.remove("has-error"));
+  }
+
+  return ok;
+}
+
+// Collect form data
+function collectData() {
+  const data = {
+    timestamp: new Date().toISOString(),
+    teaching_years: document.querySelector('select[name="teaching_years"]').value,
+    subspecialty: Array.from(document.querySelectorAll('input[name="subspecialty"]:checked')).map(c => c.value),
+    subspecialty_other: document.querySelector('input[name="subspecialty_other"]').value.trim(),
+    academic_rank: document.querySelector('select[name="academic_rank"]').value,
+    exam_committee: document.querySelector('input[name="exam_committee"]:checked')?.value || "",
+    ratings: {},
+    presentation_order: shuffled.map(t => t.zh),
+    missing_topics: document.querySelector('textarea[name="missing_topics"]').value.trim(),
+    category_feedback: document.querySelector('textarea[name="category_feedback"]').value.trim(),
+    general_feedback: document.querySelector('textarea[name="general_feedback"]').value.trim(),
+  };
+
+  // Collect ratings keyed by topic name
+  shuffled.forEach((topic, idx) => {
+    const checked = document.querySelector(`input[name="topic_${idx}"]:checked`);
+    if (checked) {
+      data.ratings[topic.zh] = parseInt(checked.value);
+    }
+  });
+
+  return data;
+}
+
+// Submit
+document.getElementById("surveyForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  if (!validate()) {
+    // Scroll to first error
+    const firstErr = document.querySelector(".has-error");
+    if (firstErr) firstErr.scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
+
+  const btn = document.getElementById("submitBtn");
+  btn.disabled = true;
+  btn.textContent = "送出中...";
+
+  const data = collectData();
+
+  try {
+    // Flatten ratings for the Sheet (one column per topic, by KW rank order)
+    const flat = {
+      timestamp: data.timestamp,
+      teaching_years: data.teaching_years,
+      subspecialty: [...data.subspecialty, data.subspecialty_other].filter(Boolean).join(", "),
+      academic_rank: data.academic_rank,
+      exam_committee: data.exam_committee,
+    };
+
+    // Add ratings in canonical KW rank order (for clean Sheet columns)
+    TOPICS.sort((a, b) => a.kwRank - b.kwRank).forEach(t => {
+      flat[`R${String(t.kwRank).padStart(2,"0")}_${t.zh}`] = data.ratings[t.zh] || "";
+    });
+
+    flat.presentation_order = data.presentation_order.join(" > ");
+    flat.missing_topics = data.missing_topics;
+    flat.category_feedback = data.category_feedback;
+    flat.general_feedback = data.general_feedback;
+
+    const resp = await fetch(WEBHOOK_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(flat),
+    });
+
+    // no-cors mode: response is opaque, assume success
+    document.getElementById("successOverlay").classList.add("show");
+    document.body.style.overflow = "hidden";
+  } catch (err) {
+    alert("送出時發生錯誤，請稍後再試。\n\n" + err.message);
+    btn.disabled = false;
+    btn.textContent = "提交問卷";
+  }
+});
+</script>
+
+</body>
+</html>
